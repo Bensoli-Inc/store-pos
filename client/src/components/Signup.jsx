@@ -3,20 +3,17 @@ import { useState } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 
-function Login () {
-   
+function Signup() {
+    const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:3001/login', {email, password})
-        .then(result => {
-            console.log(result)
-            if(result.data === "Success") {
-                navigate('/home')
-            }
+        axios.post('http://localhost:3001/register', {name, email, password})
+        .then(result => {console.log(result)
+            navigate('/login')
         })
         .catch(err=> console.log(err))
     }
@@ -24,8 +21,26 @@ function Login () {
     return (
         <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
             <div className="bg-white p-3 rounded w-25">
-                <h2>Login</h2>
+            <div className="flex flex-col justify-center items-center gap-1">
+                <h1>
+                    MORIAH
+                </h1>
+                <h2>Register</h2>
+                </div>
                 <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="email">
+                            <strong> Name</strong>
+                        </label>
+                        <input 
+                            type="text"
+                            placeholder="Enter Name"
+                            autoComplete="off"
+                            name="name"
+                            className="form-control rounded-0"
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
                     <div className="mb-3">
                         <label htmlFor="email">
                             <strong>Email</strong>
@@ -54,14 +69,14 @@ function Login () {
                         
                     </div>
                     <button type="submit" className=" btn btn-success w-100 rounded-0">
-                        Login
+                        Register
                     </button>
                     <p>
-                        New User?
+                        Already have an account?
                     </p>
                 </form>
-                <Link to="/register" className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none">
-                        Sign Up
+                <Link to="/login" className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none">
+                        Login
                 </Link>
             </div>
         </div>
@@ -69,4 +84,4 @@ function Login () {
     );
 }
 
-export default Login;
+export default Signup;
